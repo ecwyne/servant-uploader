@@ -1,3 +1,6 @@
 [submodule "packages/meteor-servant"]
 	path = packages/meteor-servant
 	url = https://github.com/ecwyne/meteor-servant
+[submodule "packages/accounts-servant"]
+	path = packages/accounts-servant
+	url = https://github.com/ecwyne/accounts-servant
