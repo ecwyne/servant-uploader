@@ -6,15 +6,22 @@ Meteor.methods({
 		var at = user.services.servant.accessToken;
 		var pass = [];
 		var fail = [];
+		var Future = Npm.require('fibers/future');
+		var future = new Future;
+		var done = _.after(arr.length, function(){
+			future.return({pass: pass, fail: fail});
+		});
 		_.each(arr, function (e){
-			try {
-				var res = ServantAPI.saveArchetypeSync(at, servant, name, e);
-				pass.push(res);
-			} catch (err){
-				fail.push({error: err, data: e})
-			}
+			ServantAPI.saveArchetypeSync(at, servant, name, e, function (err, data){
+				if (err){
+					fail.push({error: err, data: e});
+				} else {
+					pass.push(data);
+				}
+				done();
+			});
 		});
 
-		return {pass: pass, fail: fail};
+		return future.wait();
 	}
 });
