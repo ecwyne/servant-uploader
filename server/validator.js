@@ -5,8 +5,6 @@ Meteor.methods({
 		var fail = [];
 		_.each(arr, function (e, i){
 			e = parser(e);
-			console.log(e);
-			console.log(name);
 			ServantAPI.validate(name, e, function (err, data){
 				if (err){
 					fail.push({error: err, data: e});
