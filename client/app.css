@@ -1,0 +1,20 @@
+.col-md-4.well {
+	min-height: 300px;
+}
+
+.alert {
+	padding: 1px !important;
+	margin-bottom: 5px!important;
+}
+
+body > div > div > div:nth-child(1) > div.col-xs-9 > h1 {
+	margin-top: 0px;
+}
+
+.col-md-4 h3 {
+	margin-top: 0px;
+}
+
+.jumbotron {
+	padding-top: 20px;
+}

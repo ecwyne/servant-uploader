@@ -1,0 +1,116 @@
+<template name="home">
+	<head><link href="http://servant.co/img/favicon.png" rel="shortcut icon" type="image/x-icon"></head>
+	<div class="jumbotron">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-9">
+					<h1>Servant Uploader</h1>
+					<p>Where you can bulk upload <a href="http://servant.co" target="_blank">Servant.co</a> records!</p>
+				</div>
+				<div class="col-xs-3">
+					<span class="pull-right">{{> loginButtons}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 well text-center">
+					<h3>Step 1: Download Template</h3>
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="margin-top: 60px;">
+							Choose File <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							{{#each archetypes}}
+							<li>
+								<a href="{{dataURI}}" target="_blank" download="{{name}}.csv">{{name}}.csv</a>
+							</li>
+							{{/each}}
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4 well text-center">
+					<h3>Step 2: Choose Edited File</h3>
+					<input type="file" id="uploader" style="margin-top: 80px; margin-left: auto;">
+					{{#if hasUploaded}}
+					<br>
+					<button class="btn btn-danger clearBtn">Clear</button>
+					{{/if}}
+				</div>
+				<div class="col-md-4 well text-center">
+					<h3>Step 3: Confirm and Upload!</h3>
+					{{#if currentUser}}
+					<div>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary btn-block dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								{{#with servant}}
+								{{#if servant_image}}<img src="{{servant_image}}" alt="servant icon" style="width: 20px;">{{/if}} 
+								{{master}} 
+								{{#if master_image_thumbnail}}<img src="{{master_image_thumbnail}}" alt="master icon" style="width: 20px;">{{/if}} 
+								{{/with}}
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								{{#each currentUser.profile.servants}}
+								<li>
+									<a class="setServantBtn" href="#">
+										{{#if servant_image}}<img src="{{servant_image}}" alt="servant icon" style="width: 20px;">{{/if}} 
+										{{master}} 
+										{{#if master_image_thumbnail}}<img src="{{master_image_thumbnail}}" alt="master icon" style="width: 20px;">{{/if}} 
+									</a>
+								</li>
+								{{/each}}
+							</ul>
+						</div>
+					</div>
+					{{/if}}
+					{{#if hasUploaded}}
+					<div class="alert alert-success" role="alert"><strong>{{passLength}}</strong> {{getSessionVar 'type'}} records will be uploaded.</div>
+					{{#if failLength}}
+					<div class="alert alert-info" role="alert"><strong>{{failLength}}</strong> {{getSessionVar 'type'}} records contained errors. (below) 
+						<button class="btn btn-warning btn-xs retryBtn" title="Edit file and re-check values">Retry</button>
+					</div>
+					{{/if}}
+					{{#if passLength}}
+					<button class="btn btn-primary btn-lg processUpload">Submit</button>
+					{{/if}}
+					{{else}}
+					<button class="btn btn-primary btn-lg" style="margin-top: 60px;" disabled>Submit</button>
+					{{/if}}
+				</div>
+			</div>	
+		</div>
+	</div>
+	{{#if failLength}}
+	<h2>Errors:</h2>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>Record</th>
+				<th>Errors</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each getSessionVar 'uploadFail'}}
+			<tr rowspan="{{getLength this.error.errors}}">
+				<td>
+					<dl class="dl-horizontal">
+						{{#each pairs this.data}}
+						<dt>{{key}}</dt>
+						<dd>{{value}}</dd>
+						{{/each}}
+					</dl>
+				</td>
+				<td style="vertical-align: middle;">
+					<dl class="dl-horizontal">
+						{{#each pairs this.error.errors}}
+						<dt>{{key}}</dt>
+						<dd>{{value}}</dd>
+						{{/each}}
+					</dl>
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	{{/if}}
+</template>
+

@@ -1,0 +1,56 @@
+<template name="navbar">
+	<nav class="navbar navbar-default" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Servant Uploader</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Templates<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						{{#each archetypes}}
+						<li>
+							<a href="{{dataURI}}" target="_blank" download="{{name}}.csv">{{name}}.csv</a>
+						</li>
+						{{/each}}
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				{{#if currentUser}}
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						{{#with servant}}
+						{{#if servant_image}}<img src="{{servant_image}}" alt="servant icon" style="width: 20px;">{{/if}} 
+						{{master}} 
+						{{#if master_image_thumbnail}}<img src="{{master_image_thumbnail}}" alt="master icon" style="width: 20px;">{{/if}} 
+						{{/with}}
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						{{#each currentUser.profile.servants}}
+						<li>
+							<a class="setServantBtn" href="#">
+								{{#if servant_image}}<img src="{{servant_image}}" alt="servant icon" style="width: 20px;">{{/if}} 
+								{{master}} 
+								{{#if master_image_thumbnail}}<img src="{{master_image_thumbnail}}" alt="master icon" style="width: 20px;">{{/if}} 
+							</a>
+						</li>
+						{{/each}}
+					</ul>
+				</li>
+				{{/if}}
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+</template>
+
